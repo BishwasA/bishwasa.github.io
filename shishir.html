@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="admin.css" />
+  <script src="data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init({
+        publicKey: "UHpytVLyxh82_ayhq",
+      });
+    })();
+  </script>
+</head>
+
+<body>
+
+  <div class="admin-container">
+
+    <!-- Login Overlay -->
+    <div id="login-overlay">
+      <div class="login-box" id="login-box-main">
+        <h2>Admin Access</h2>
+        <input id="login-id" placeholder="Admin ID" />
+        <div style="position:relative;">
+          <input id="login-pass" type="password" placeholder="Password" />
+          <span id="toggle-pass"
+            style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; opacity:0.6;">👁️</span>
+        </div>
+        <button id="btn-login">Unlock Panel</button>
+        <p style="font-size:10px; color:var(--text-muted); margin-top:5px;">Press Enter to Login</p>
+        <p id="login-msg" style="color:var(--danger); margin-top:10px; font-size:13px;"></p>
+        <a href="#" id="btn-forgot" style="color:var(--accent); font-size:12px; margin-top:15px; display:block;">Forgot
+          Password?</a>
+        <a href="#" id="btn-reset-data"
+          style="color:var(--text-muted); font-size:10px; margin-top:10px; display:block; opacity:0.5;">Emergency: Clear
+          Browser Cache</a>
+      </div>
+
+      <!-- Recovery Panel (Hidden) -->
+      <div class="login-box" id="recovery-panel" style="display:none;">
+        <h2 style="color:var(--danger)">Recovery</h2>
+        <p style="color:#ccc; font-size:13px; margin-bottom:15px;">Security Question:<br><b style="color:#fff;">when are
+            you going to die</b></p>
+
+        <div id="rec-step-1">
+          <input id="rec-answer" placeholder="Your Answer..." />
+          <button id="btn-rec-verify">Verify Answer</button>
+        </div>
+
+        <!-- NEW: Step 2: Code Verification -->
+        <div id="rec-step-code" style="display:none;">
+          <p style="color:var(--accent); font-size:12px; margin-bottom:10px;">Answer correct! A code was sent to your
+            Gmail.</p>
+          <input id="rec-code-input" placeholder="4-digit code" />
+          <button id="btn-rec-verify-code">Verify Code</button>
+        </div>
+
+        <div id="rec-step-2" style="display:none;">
+          <p style="color:#00ff80; font-size:12px; margin-bottom:10px;">Identity Verified. Reset Password Below:</p>
+          <div style="position:relative;">
+            <input id="rec-new-pass" type="password" placeholder="New Password" />
+            <span id="toggle-rec-pass"
+              style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; opacity:0.6;">👁️</span>
+          </div>
+          <div style="position:relative; margin-top:10px;">
+            <input id="rec-conf-pass" type="password" placeholder="Confirm New Password" />
+            <span id="toggle-rec-conf"
+              style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; opacity:0.6;">👁️</span>
+          </div>
+          <button id="btn-rec-reset" style="background:var(--danger); color:#fff; margin-top:10px;">Reset &
+            Login</button>
+        </div>
+
+        <button id="btn-rec-cancel"
+          style="background:transparent; border:1px solid #333; margin-top:10px;">Cancel</button>
+        <p id="rec-msg" style="color:var(--danger); margin-top:10px; font-size:13px;"></p>
+      </div>
+    </div>
+
+    <aside class="sidebar">
+      <h2>CMS PANEL <button id="btn-logout" title="Logout">🔒</button></h2>
+      <ul>
+        <li data-tab="hero">Hero / Home</li>
+        <li data-tab="hire">Hire Box</li>
+        <li data-tab="about">About</li>
+        <li data-tab="skills">Skills</li>
+        <li data-tab="projects">Projects</li>
+        <li data-tab="socials">Socials</li>
+        <li data-tab="general">General</li>
+        <li data-tab="security">Security</li>
+      </ul>
+    </aside>
+
+    <main class="panel">
+      <!-- Status Bar -->
+      <div id="status-bar"
+        style="background:#111; padding:10px 20px; border-bottom:1px solid #222; display:flex; justify-content:space-between; align-items:center; font-size:12px;">
+        <div id="sync-status"><span style="color:#00ff80;">●</span> Live Connection Active</div>
+        <button id="btn-publish"
+          style="background:var(--accent); color:#000; padding:5px 15px; font-size:11px; font-weight:bold; border-radius:4px;">DOWNLOAD
+          FOR HOSTING</button>
+      </div>
+
+      <!-- Security -->
+      <section id="security" class="tab">
+        <h3>Security Settings</h3>
+        <p style="color:var(--text-muted); margin-bottom:20px;">
+          Update your Admin ID, Password, and Recovery Email.<br>
+          <small style="color:var(--accent);">Active 2-Step Verification.</small>
+        </p>
+
+        <!-- Current Password Check -->
+        <label>Current Password (Required to Unfreeze)</label>
+        <div style="position:relative;">
+          <input id="curr-pass" type="password" placeholder="Verify your current password" />
+          <span id="toggle-curr-pass"
+            style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; opacity:0.6;">👁️</span>
+        </div>
+        <p style="font-size:11px; color:#666; margin-top:5px;">Enter your existing password to unlock the fields below.
+        </p>
+
+        <hr style="border:1px solid #222; margin:20px 0;">
+
+        <!-- Frozen Fields -->
+        <div id="security-fields" style="opacity:0.4; pointer-events:none;">
+          <label>New Admin ID</label>
+          <input id="new-id" placeholder="Enter new ID" />
+
+          <label>New Password</label>
+          <div style="position:relative;">
+            <input id="new-pass" type="password" placeholder="Enter new Password" />
+            <span id="toggle-new-pass"
+              style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; opacity:0.6;">👁️</span>
+          </div>
+
+          <label>Recovery Email</label>
+          <input id="recovery-email" placeholder="Email address" disabled />
+          <div style="margin-top:5px;">
+            <a href="#" id="link-change-email"
+              style="color:var(--accent); font-size:11px; display:inline-block; margin-right:10px;">Change Recovery
+              Email?</a>
+            <button id="btn-save-email"
+              style="display:none; background:var(--accent); color:#000; padding:3px 8px; font-size:11px; border-radius:3px; border:none; cursor:pointer;">Save
+              Email</button>
+          </div>
+        </div>
+
+        <hr style="border:1px solid var(--border); margin:20px 0;">
+
+        <!-- Step 2: Request Code -->
+        <div id="sec-step-1">
+          <p id="sec-hint" style="font-size:13px; margin-bottom:10px; opacity:0.6;">To save a new **ID or Password**,
+            you must request a code.</p>
+          <button id="btn-get-code">Get Verification Code</button>
+        </div>
+
+        <!-- Step 3: Enter Code -->
+        <div id="sec-step-2" style="display:none; margin-top:15px;">
+          <label>Enter Code from Email</label>
+          <input id="sec-code" placeholder="4-digit code" />
+          <button id="btn-verify-update" style="background:var(--danger); color:#fff; margin-top:10px;">Verify &
+            Update</button>
+        </div>
+      </section>
+
+      <!-- Hero -->
+      <section id="hero" class="tab">
+        <h3>Hero / Home</h3>
+        <label>Main Title (HTML allowed)</label>
+        <input id="hero-title" placeholder="e.g. AI/ML Enthusiast<br>Developer" />
+
+        <label>Description</label>
+        <textarea id="hero-desc" placeholder="Hero description"></textarea>
+
+        <label>Image Filename / URL</label>
+        <input id="hero-img" placeholder="e.g. AA.png" />
+
+        <label>CV Link</label>
+        <input id="hero-cv" placeholder="e.g. ./resume.pdf" />
+
+        <label>Blog Link</label>
+        <input id="hero-blog" placeholder="https://..." />
+
+        <button id="save-hero">Save Hero</button>
+      </section>
+
+      <!-- Hire -->
+      <section id="hire" class="tab">
+        <h3>Hire Box</h3>
+        <input id="hire-text" placeholder="Hire text" />
+        <input id="hire-color" type="color" />
+        <label><input type="checkbox" id="hire-visible" /> Visible</label>
+        <label><input type="checkbox" id="hire-glow" /> Glow</label>
+        <button id="save-hire">Save</button>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="tab">
+        <h3>About Section</h3>
+        <label>Section Title</label>
+        <input id="about-title" placeholder="Title (e.g. About Me)" />
+
+        <label>Full Name</label>
+        <input id="about-name" placeholder="Name" />
+
+        <label>Intro (Top Paragraph)</label>
+        <textarea id="about-intro" placeholder="Intro text..."></textarea>
+
+        <label>Main Description (Bottom Paragraph)</label>
+        <textarea id="about-desc" placeholder="Main description..."></textarea>
+
+        <!-- Experience Subsection -->
+        <hr style="border:1px solid #333; margin: 30px 0;">
+        <h4 style="color:var(--accent); margin-bottom:15px;">Experience</h4>
+
+        <input id="exp-role" placeholder="Role (e.g. Intern)" />
+        <input id="exp-company" placeholder="Company" />
+        <input id="exp-duration" placeholder="Duration (e.g. 2024 - Present)" />
+        <textarea id="exp-desc" placeholder="Job Description..."></textarea>
+
+        <button id="add-exp" style="margin-top:10px;">+ Add Experience</button>
+        <div id="exp-list" style="margin-top:20px;"></div>
+
+        <button id="save-about" style="margin-top:40px;">Save About & Experience</button>
+      </section>
+
+      <!-- Skills -->
+      <section id="skills" class="tab">
+        <h3>Skills</h3>
+        <input id="skill-title" placeholder="Skill title" />
+        <input id="skill-icon" placeholder="FontAwesome icon" />
+        <input id="skill-desc" placeholder="Description" />
+        <button id="add-skill">Add Skill</button>
+        <div id="skills-list"></div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="tab">
+        <h3>Projects</h3>
+        <input id="p-title" placeholder="Project name" />
+        <input id="p-tags" placeholder="Tags comma separated" />
+        <input id="p-demo" placeholder="Demo link" />
+        <input id="p-code" placeholder="Code link" />
+        <textarea id="p-desc" placeholder="Description"></textarea>
+        <label><input type="checkbox" id="p-featured" /> Featured</label>
+        <button id="add-project">Add Project</button>
+        <div id="projects-list"></div>
+      </section>
+
+      <!-- Socials -->
+      <section id="socials" class="tab">
+        <h3>Social Links</h3>
+        <input id="linkedin" placeholder="LinkedIn" />
+        <input id="github" placeholder="GitHub" />
+        <input id="kaggle" placeholder="Kaggle" />
+        <input id="twitter" placeholder="Twitter" />
+        <input id="instagram" placeholder="Instagram" />
+        <button id="save-socials">Save</button>
+      </section>
+
+      <!-- General / Footer -->
+      <section id="general" class="tab">
+        <h3>General Settings</h3>
+        <label>Footer Text</label>
+        <input id="footer-text" placeholder="SHISHIRADHIKARI" />
+        <label>Footer Year</label>
+        <input id="footer-year" placeholder="2025" />
+        <button id="save-general">Save Changes</button>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+
+</html>

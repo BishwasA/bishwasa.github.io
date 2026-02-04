@@ -1,0 +1,351 @@
+/* ---------- VARIABLES ---------- */
+* {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+:root {
+  --bg: #070707;
+  --sidebar-bg: #0b0f14;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --input-bg: rgba(0, 0, 0, 0.3);
+  --border: rgba(255, 255, 255, 0.05);
+  --accent: #4dc3ff;
+  --accent-hover: #3da0d6;
+  --accent-secondary: #8b6bff;
+  --danger: #ff4d4d;
+  --text-main: #eef;
+  --text-muted: #889;
+  --glass: rgba(255, 255, 255, 0.02);
+  --radius: 8px;
+}
+
+/* LOGIN OVERLAY */
+#login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-box {
+  background: var(--sidebar-bg);
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--accent);
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(77, 195, 255, 0.15);
+}
+
+.login-box h2 {
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.login-box input {
+  margin-bottom: 12px;
+}
+
+.login-box button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#btn-logout {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  font-size: 12px;
+  margin-left: auto;
+  color: var(--text-muted);
+  width: auto;
+  margin-top: 0;
+}
+
+#btn-logout:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ---------- GLOBAL ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Inter, sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---------- LAYOUT ---------- */
+.admin-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar {
+  width: 260px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  color: var(--accent);
+  margin: 0 0 30px 0;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar h2::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  transition: all 0.25s ease;
+  font-weight: 500;
+}
+
+.sidebar li:hover {
+  background: var(--glass);
+  color: #fff;
+}
+
+.sidebar li.active {
+  background: linear-gradient(90deg, rgba(77, 195, 255, 0.1), transparent);
+  border-left: 3px solid var(--accent);
+  color: var(--accent);
+}
+
+/* ---------- MAIN PANEL ---------- */
+.panel {
+  flex: 1;
+  padding: 40px 60px;
+  overflow-y: auto;
+  background: radial-gradient(circle at top right, rgba(139, 107, 255, 0.05), transparent 40%);
+}
+
+.tab {
+  display: none;
+  max-width: 700px;
+  margin: 0 auto;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab h3 {
+  font-size: 24px;
+  color: var(--accent-secondary);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+}
+
+/* ---------- FORMS ---------- */
+label {
+  display: block;
+  margin: 16px 0 6px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: #fff;
+  font-size: 15px;
+  font-family: inherit;
+  transition: border 0.3s;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+button {
+  background: var(--accent);
+  color: #00141a;
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(77, 195, 255, 0.25);
+}
+
+/* Secondary Button (Add items) */
+button[id^="add-"] {
+  background: var(--card-bg);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  width: 100%;
+  justify-content: center;
+}
+
+button[id^="add-"]:hover {
+  background: var(--glass);
+  box-shadow: none;
+  border-color: var(--accent);
+}
+
+/* ---------- LIST ITEMS ---------- */
+.list-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-info b {
+  display: block;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.list-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.btn-del {
+  background: transparent;
+  color: var(--danger);
+  padding: 8px;
+  margin: 0;
+  width: auto;
+  border: 1px solid rgba(255, 77, 77, 0.2);
+}
+
+.btn-del:hover {
+  background: rgba(255, 77, 77, 0.1);
+  box-shadow: none;
+  transform: none;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .admin-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar ul {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 4px;
+  }
+
+  .sidebar li {
+    white-space: nowrap;
+    margin-bottom: 0;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+
+  .tab h3 {
+    font-size: 20px;
+  }
+}

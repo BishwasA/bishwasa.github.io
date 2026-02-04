@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bishwas Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init({
+        publicKey: "UHpytVLyxh82_ayhq",
+      });
+    })();
+  </script>
+  <script defer src="script.js"></script>
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Open to Hire Box -->
+  <div id="hire-box" class="fixed-box">
+    <span class="green-dot"></span>
+    <span id="hire-text">Open to Hire</span>
+  </div>
+
+  <!-- Date + Time Box -->
+  <div id="datetime-box">
+    <span id="eng-time"></span><br>
+    <span id="eng-date"></span>
+  </div>
+
+  <!-- Social Media Icons -->
+  <div class="social-icons">
+    <a href="#" class="social-link" data-key="linkedin"><i class="fab fa-linkedin"></i></a>
+    <a href="#" class="social-link" data-key="twitter"><i class="fab fa-twitter"></i></a>
+    <a href="#" class="social-link" data-key="github"><i class="fab fa-github"></i></a>
+    <a href="#" class="social-link" data-key="instagram"><i class="fab fa-instagram"></i></a>
+  </div>
+
+  <nav class="navbar">
+    <ul id="nav-links"></ul>
+  </nav>
+
+  <section id="home" class="section home-section">
+
+    <!-- subtle glow circle -->
+    <div class="bg-glow"></div>
+
+    <div class="hero">
+
+      <!-- LEFT CONTENT -->
+      <div class="hero-text">
+        <h1 id="hero-title"></h1>
+        <p id="hero-desc"></p>
+
+        <div class="about-boxes">
+
+          <!-- CV DOWNLOAD -->
+          <a href="./shishiradhikari.pdf" class="about-box about-box-cv" download="Shishir_Adhikari_CV.pdf">
+            CV
+          </a>
+
+
+          <!-- BLOG LINK -->
+          <a href="https://yourblogsite.com" class="about-box about-box-blog" target="_blank">
+            Blog
+          </a>
+
+        </div>
+      </div>
+      <!-- RIGHT IMAGE -->
+      <div class="hero-image">
+        <img id="hero-img" src="" alt="Profile">
+      </div>
+
+
+  </section>
+
+
+
+  <section id="about" class="section about-section">
+    <div class="about-inner">
+      <div class="about-left about-design">
+        <h1 class="about-main-title" id="about-title">About me</h1>
+        <h2 class="about-name" id="about-name"></h2>
+        <p class="about-intro" id="about-intro"></p>
+        <p class="about-desc-2" id="about-desc"></p>
+
+        <!-- Experience Section -->
+        <h3 class="experience-title" style="margin-top: 30px; margin-bottom: 20px;">Experience</h3>
+        <div id="experience-list" class="experience-list"></div>
+      </div>
+
+      <div class="about-right">
+        <div class="skill-grid" id="skill-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section projects-section">
+    <div class="projects-inner">
+      <header class="projects-header">
+        <h2>Featured Projects</h2>
+        <p class="projects-sub">A showcase of cutting-edge AI/ML projects.</p>
+      </header>
+      <div class="projects-grid" id="projects-grid"></div>
+      <div class="projects-controls">
+        <button id="see-more-btn" class="btn-outline">See More</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section contact-section">
+    <div class="contact-inner">
+      <div class="contact-left contact-card">
+        <h3>Send a Message</h3>
+        <form id="contact-form" class="contact-form" method="POST">
+          <label>
+            <span>Name</span>
+            <input type="text" id="cf-name" name="name" required>
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" id="cf-email" name="email" required>
+          </label>
+          <label>
+            <span>Message</span>
+            <textarea id="cf-msg" name="message" rows="5" required></textarea>
+          </label>
+          <div class="contact-actions">
+            <button type="submit" class="btn-primary">Send Message</button>
+          </div>
+        </form>
+      </div>
+      <div class="contact-right contact-card">
+        <h3>Connect on Socials</h3>
+        <div class="connect-socials" id="connect-socials"></div>
+        <div class="current-status">
+          <h4>Current Status</h4>
+          <p id="status-text"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    &copy; <span id="footer-year">2025</span>
+    <span id="footer-text">SHISHIRADHIKARI</span>
+  </footer>
+
+  <div id="toast" class="toast">Message sent!</div>
+
+</body>
+
+</html>
