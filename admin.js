@@ -1,14 +1,34 @@
-/* ---------- ANTI-INSPECT PROTECTION ---------- */
+/* ---------- ADVANCED CONTENT SHIELD ---------- */
 (function () {
-  document.addEventListener('contextmenu', e => e.preventDefault());
+  // 1. Block Keyboard Shortcuts
   document.onkeydown = function (e) {
-    if (e.keyCode === 123) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode === 73) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode === 74) return false;
-    if (e.ctrlKey && e.keyCode === 85) return false;
-    if (e.ctrlKey && e.keyCode === 83) return false;
+    if (
+      e.keyCode === 123 ||
+      (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) ||
+      (e.ctrlKey && [85, 83, 80, 65, 67, 86, 88].includes(e.keyCode))
+    ) {
+      return false;
+    }
   };
-  setInterval(() => { (function () { return false; }['constructor']('debugger')['call']()); }, 100);
+
+  // 2. Disable Right-Click
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // 3. Clear Console
+  setInterval(() => {
+    console.clear();
+    console.log("%cSTOP!", "color:red; font-size:30px; font-weight:bold;");
+  }, 1000);
+
+  // 4. Multi-Level Debugger Trap
+  function antiDebug(n) {
+    if (n === 5) return;
+    setInterval(() => {
+      (function () { return false; }['constructor']('debugger')['call']());
+    }, 100);
+    antiDebug(++n);
+  }
+  antiDebug(0);
 })();
 
 /* ADMIN PANEL LOGIC */

@@ -1,14 +1,35 @@
-/* ---------- ANTI-INSPECT PROTECTION ---------- */
+/* ---------- ADVANCED CONTENT SHIELD ---------- */
 (function () {
-  document.addEventListener('contextmenu', e => e.preventDefault());
+  // 1. Block Keyboard Shortcuts (F12, Inspect, Source, Save, Copy, Paste, Print, etc.)
   document.onkeydown = function (e) {
-    if (e.keyCode === 123) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode === 73) return false;
-    if (e.ctrlKey && e.shiftKey && e.keyCode === 74) return false;
-    if (e.ctrlKey && e.keyCode === 85) return false;
-    if (e.ctrlKey && e.keyCode === 83) return false;
+    if (
+      e.keyCode === 123 || // F12
+      (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || // Ctrl+Shift+I/J/C
+      (e.ctrlKey && [85, 83, 80, 65, 67, 86, 88].includes(e.keyCode)) // Ctrl+U/S/P/A/C/V/X
+    ) {
+      return false;
+    }
   };
-  setInterval(() => { (function () { return false; }['constructor']('debugger')['call']()); }, 100);
+
+  // 2. Disable Right-Click
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // 3. Clear Console constantly to block "Console Hacking"
+  setInterval(() => {
+    console.clear();
+    console.log("%cSTOP!", "color:red; font-size:40px; font-weight:bold;");
+    console.log("%cThis system is protected. Unauthorized access is forbidden.", "font-size:15px;");
+  }, 1000);
+
+  // 4. Multi-Level Debugger Trap (Freezes browser if DevTools opens)
+  function antiDebug(n) {
+    if (n === 5) return;
+    setInterval(() => {
+      (function () { return false; }['constructor']('debugger')['call']());
+    }, 50);
+    antiDebug(++n);
+  }
+  antiDebug(0);
 })();
 
 /* ==========================================================
